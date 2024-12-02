@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useCookie } from "react";
 import { Link } from "react-router-dom"; // Import Link for routing
 import Img1 from "../assets/Car_img1.jpg";
 import Img2 from "../assets/Car_img2.jpg";
@@ -7,11 +7,11 @@ import Logo from "../assets/logo.jpg"; // Import the uploaded logo
 import { AppContext } from "../context/AppContext";
 
 const LandingPage = () => {
-	const { token, navigate } = useContext(AppContext);
+	const { cookies, navigate } = useContext(AppContext);
 	const signUpButtonHandle = (e) => {
 		e.preventDefault();
-
-		if (token) {
+		// alert(cookies.token);
+		if (cookies.token !== undefined) {
 			navigate("/dashboard");
 		} else {
 			navigate("/login");
@@ -33,8 +33,11 @@ const LandingPage = () => {
 					>
 						Home
 					</a>
-					<a className="hover:text-purple-300 transition duration-300 border-b-[5px]">
-						<Link to="/help">Help</Link>
+					<a
+						href="/help"
+						className="hover:text-purple-300 transition duration-300 border-b-[5px]"
+					>
+						Help
 					</a>
 					<a
 						href="/about"

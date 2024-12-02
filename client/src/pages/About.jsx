@@ -1,144 +1,112 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Spinner from "../components/Spinner";
-import { AppContext } from "../context/AppContext";
+import P1 from "../assets/person_1.jpg";
+import Celio from "../assets/celerio.jpg";
+import Lux from "../assets/Luxury.jpg";
+import SUV from "../assets/Suv.jpg";
 
 const AboutUs = () => {
   return (
     <div className="bg-gray-50 text-gray-900">
       {/* Hero Section */}
-      <section className="bg-blue-600 text-white text-center py-20">
-        <h1 className="text-4xl font-extrabold">About Rent Vortex</h1>
-        <p className="mt-4 text-lg">Your Trusted Partner for Reliable Car Rentals</p>
+      <section className="relative bg-blue-600 text-white text-center py-20">
+        <Link
+          to="/"
+          className="absolute top-4 left-4 bg-white text-blue-600 py-2 px-4 rounded-full shadow-md font-bold hover:bg-blue-100"
+        >
+          Home
+        </Link>
+        <h1 className="text-4xl font-extrabold mb-4">About Rent Vortex</h1>
+        <p className="text-lg max-w-2xl mx-auto">
+          Your Trusted Partner for Reliable Car Rentals
+        </p>
       </section>
 
       {/* About Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-6">
         <div className="max-w-screen-lg mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">What is Rent Vortex?</h2>
-          <p className="text-lg">
+          <h2 className="text-3xl font-bold mb-8">What is Rent Vortex?</h2>
+          <p className="text-lg leading-relaxed text-gray-700">
             Rent Vortex is a premium car rental service dedicated to providing customers with a seamless, flexible, and
-            affordable car rental experience. Whether you're looking for a short-term rental for a weekend getaway or a long-term
-            solution for your business needs, Rent Vortex offers a variety of well-maintained vehicles to suit every need.
+            affordable car rental experience. Whether you're planning a short trip or need long-term solutions, our fleet
+            caters to every need with well-maintained vehicles at competitive prices.
           </p>
         </div>
       </section>
 
-      {/* Merits Section */}
-      <section className="bg-gray-100 py-16">
+      {/* Why Choose Us Section */}
+      <section className="bg-gray-100 py-16 px-6">
         <div className="max-w-screen-lg mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Why Choose Rent Vortex?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold">Wide Range of Vehicles</h3>
-              <p className="mt-2">From compact cars to luxury vehicles, we have the perfect car for your trip.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold">Flexible Rental Plans</h3>
-              <p className="mt-2">Choose from daily, weekly, or monthly rental plans that suit your needs and budget.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold">Affordable Prices</h3>
-              <p className="mt-2">Our competitive pricing ensures you get great value for your money without compromising on quality.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold">24/7 Customer Support</h3>
-              <p className="mt-2">Our dedicated customer support team is available 24/7 to assist you with any questions or concerns.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold">Easy Online Booking</h3>
-              <p className="mt-2">Book your car rental easily through our website or mobile app, anytime, anywhere.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold">Free Delivery & Pickup</h3>
-              <p className="mt-2">We offer free delivery and pickup services, so you don’t have to worry about getting to us.</p>
-            </div>
+            {[ 
+              { title: "Wide Range of Vehicles", description: "From economy cars to luxury vehicles, we have the perfect option for every trip." },
+              { title: "Flexible Rental Plans", description: "Choose daily, weekly, or monthly plans tailored to your needs and budget." },
+              { title: "Affordable Prices", description: "Enjoy competitive pricing without compromising on quality or service." },
+              { title: "24/7 Customer Support", description: "Our dedicated team is available round-the-clock to assist you." },
+              { title: "Easy Online Booking", description: "Conveniently book your rental through our website or app anytime." },
+              { title: "Free Delivery & Pickup", description: "Enjoy hassle-free delivery and pickup services at no extra charge." },
+            ].map((item, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold text-gray-800">{item.title}</h3>
+                <p className="mt-2 text-gray-600">{item.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Fleet Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-6">
         <div className="max-w-screen-lg mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Our Fleet</h2>
-          <p className="text-lg mb-6">
-            At Rent Vortex, we take pride in offering a diverse fleet of vehicles. Whether you're looking for an economy car,
-            a family SUV, or a luxury sedan, we’ve got you covered.
+          <p className="text-lg mb-12 max-w-2xl mx-auto">
+            From fuel-efficient economy cars to spacious SUVs and luxurious sedans, Rent Vortex offers a vehicle for every
+            journey. Travel in comfort, style, and reliability!
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <img
-                src="https://via.placeholder.com/350x200?text=Economy+Car"
-                alt="Economy Car"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-xl font-semibold">Economy Cars</h3>
-              <p className="mt-2 text-gray-600">Perfect for city driving and budget-friendly travel.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <img
-                src="https://via.placeholder.com/350x200?text=Luxury+Car"
-                alt="Luxury Car"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-xl font-semibold">Luxury Cars</h3>
-              <p className="mt-2 text-gray-600">Drive in style with our premium range of luxury vehicles.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <img
-                src="https://via.placeholder.com/350x200?text=SUV"
-                alt="SUV"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-xl font-semibold">SUVs</h3>
-              <p className="mt-2 text-gray-600">Ideal for families or adventure trips with extra space and comfort.</p>
-            </div>
+            {[ 
+              { title: "Economy Cars", description: "Budget-friendly and ideal for city drives.", image: Celio },
+              { title: "Luxury Cars", description: "Drive in style with premium luxury vehicles.", image: Lux },
+              { title: "SUVs", description: "Spacious and perfect for family or adventure trips.", image: SUV },
+            ].map((item, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <h3 className="text-xl font-semibold text-gray-800">{item.title}</h3>
+                <p className="mt-2 text-gray-600">{item.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="py-16 px-4 bg-gray-50">
-  <div className="max-w-screen-lg mx-auto text-center">
-    <h2 className="text-3xl font-bold mb-8">Meet Our Team</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-      {/* John Doe's Card */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="Team Member"
-          className="w-32 h-32 rounded-full mx-auto"
-        />
-        <h3 className="text-xl font-semibold mt-4">John Doe</h3>
-        <p className="mt-2 text-gray-600">Founder & CEO</p>
-      </div>
-
-      {/* Sarah Miller's Card with Transition Effect */}
-      <div className="bg-white p-6 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-110">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="Team Member"
-          className="w-32 h-32 rounded-full mx-auto"
-        />
-        <h3 className="text-xl font-semibold mt-4">Sarah Miller</h3>
-        <p className="mt-2 text-gray-600">Operations Manager</p>
-      </div>
-
-      {/* David Green's Card */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="Team Member"
-          className="w-32 h-32 rounded-full mx-auto"
-        />
-        <h3 className="text-xl font-semibold mt-4">David Green</h3>
-        <p className="mt-2 text-gray-600">Customer Support Specialist</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-screen-lg mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-8">Meet Our Team</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {[ 
+              { name: "Shishir Shukla", role: "Operations Manager", image: P1 },
+              { name: "Yash Kumar", role: "Founder & CEO", image: "https://via.placeholder.com/150" },
+              { name: "Rahul Mehta", role: "Customer Support Specialist", image: "https://via.placeholder.com/150" },
+            ].map((member, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform transition duration-300 ease-in-out">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-32 h-32 rounded-full mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold text-gray-800">{member.name}</h3>
+                <p className="mt-2 text-gray-600">{member.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-blue-600 text-white text-center py-6">

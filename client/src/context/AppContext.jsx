@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
+import { CookiesProvider, useCookies } from "react-cookie";
 import axios from "axios";
 
 export const AppContext = createContext();
@@ -7,11 +8,12 @@ export const AppContext = createContext();
 function AppContextProvider({ children }) {
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState({});
-	const [token, setToken] = useState("");
 	const [isAdmin, setIsAdmin] = useState(false);
 	const navigate = useNavigate();
 	const [cars, setCars] = useState([]);
+	const [bookings, setBookings] = useState([]);
 	const BASE_URL = "http://localhost:5500/api/v1";
+	const [cookies, setCookie, removeCookie] = useCookies();
 
 	async function handleLogin(data) {
 		setLoading(true);
@@ -21,13 +23,17 @@ function AppContextProvider({ children }) {
 			console.log("Login successful:", response.data);
 
 			setUser(response.data.exisitingUser);
-			setToken(response.data.token);
+			setCookie("token", response.data.token, { path: "/" });
+			setCookie("user", JSON.stringify(response.data.exisitingUser), {
+				path: "/",
+			});
 
 			setIsAdmin(response.data.exisitingUser.role === "Admin");
 
 			navigate("/dashboard");
 		} catch (err) {
 			console.log("Login error:", err.response?.data || err.message);
+			alert(err.response?.data.message);
 		} finally {
 			setLoading(false);
 		}
@@ -52,7 +58,8 @@ function AppContextProvider({ children }) {
 		setLoading(true);
 		try {
 			setUser({});
-			setToken(null);
+			removeCookie("token");
+			removeCookie("user");
 			setIsAdmin(false);
 			navigate("/login");
 
@@ -63,14 +70,54 @@ function AppContextProvider({ children }) {
 			setLoading(false);
 		}
 	}
-	function getAllCars() {
+
+	async function getAllCars() {
 		setLoading(true);
 		try {
-			axios.get(`${BASE_URL}/getallcars`).then((res) => {
-				setCars(res.data);
-			});
+			const res = await axios.get(`${BASE_URL}/getallcars`);
+			setCars(res.data);
+			// console.log(res);
 		} catch (err) {
 			console.error("Error getting cars data", err);
+		} finally {
+			setLoading(false);
+		}
+	}
+
+	async function addCar(carData) {
+		try {
+			carData.capacity = Number(carData.capacity);
+			carData.rentPerHour = Number(carData.rentPerHour);
+			const response = await axios.post(`${BASE_URL}/addCar`, carData);
+			if (response.ok) {
+				return response;
+			} else {
+				console.error("Failed to add car.");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	}
+
+	async function makeBooking(bookingData) {
+		setLoading(true);
+		try {
+			const res = await axios.post(`${BASE_URL}/bookCar`, bookingData);
+			setCars(res.data);
+			console.log(res);
+		} catch (err) {
+			console.error("Error getting cars data", err);
+		} finally {
+			setLoading(false);
+		}
+	}
+	async function getAllBookings() {
+		setLoading(true);
+		try {
+			const res = await axios.get(`${BASE_URL}/getAllBookings`);
+			setBookings(res.data);
+		} catch (err) {
+			console.error("Error getting booking data", err);
 		} finally {
 			setLoading(false);
 		}
@@ -81,8 +128,6 @@ function AppContextProvider({ children }) {
 		setLoading,
 		user,
 		setUser,
-		token,
-		setToken,
 		isAdmin,
 		setIsAdmin,
 		navigate,
@@ -92,6 +137,14 @@ function AppContextProvider({ children }) {
 		cars,
 		setCars,
 		getAllCars,
+		cookies,
+		setCookie,
+		removeCookie,
+		addCar,
+		makeBooking,
+		getAllBookings,
+		bookings,
+		setBookings,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

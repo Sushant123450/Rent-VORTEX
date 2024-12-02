@@ -109,3 +109,65 @@ exports.login = async (req, res) => {
 		});
 	}
 };
+
+exports.login = async (req, res) => {
+	console.log("Login called");
+
+	try {
+		let { email, password } = req.body;
+		email = email.toLowerCase();
+		// console.log(req.body);
+
+		if (!email || !password) {
+			return res.status(400).json({
+				success: "failed",
+				message: "Please Fill all Details",
+			});
+		}
+
+		const exisitingUser = await User.findOne({ email: email });
+		if (!exisitingUser) {
+			return res.status(401).json({
+				success: "failed",
+				message: "User Not Found",
+			});
+		}
+		const payload = {
+			email: exisitingUser.email,
+			id: exisitingUser._id,
+			role: exisitingUser.role,
+		};
+
+		if (await bcrypt.compare(password, exisitingUser.password)) {
+			let token = jwt.sign(payload, process.env.JWT_SECRET, {
+				expiresIn: "2h",
+			});
+
+			exisitingUser.token = token;
+			exisitingUser.password = undefined;
+
+			const options = {
+				expries: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+				httpOnly: true,
+			};
+
+			res.cookie("token", token, options).status(200).json({
+				success: "success",
+				token,
+				exisitingUser,
+				message: "User LoggedIn Successfully",
+			});
+		} else {
+			return res.status(403).json({
+				success: "false",
+				message: "Invalid Password",
+			});
+		}
+	} catch (e) {
+		console.log(e);
+		return res.status(500).json({
+			success: "failed",
+			message: "Login Failiure",
+		});
+	}
+};

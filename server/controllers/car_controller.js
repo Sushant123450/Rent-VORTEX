@@ -1,6 +1,7 @@
 const Car = require("../models/cars_model");
 
 exports.getAllCars = async (req, res) => {
+	console.log("Get All Car Called");
 	try {
 		const cars = await Car.find();
 		res.send(cars);
@@ -9,6 +10,7 @@ exports.getAllCars = async (req, res) => {
 	}
 };
 exports.addCar = async (req, res) => {
+	console.log("Add Car Called");
 	try {
 		const newcar = new Car(req.body);
 		await newcar.save();
@@ -19,6 +21,7 @@ exports.addCar = async (req, res) => {
 };
 
 exports.editCar = async (req, res) => {
+	console.log("Edit Car Called");
 	try {
 		const car = await Car.findOne({ _id: req.body._id });
 		car.name = req.body.name;
@@ -36,6 +39,7 @@ exports.editCar = async (req, res) => {
 };
 
 exports.deleteCar = async (req, res) => {
+	console.log("Delete Car Called");
 	try {
 		await Car.findOneAndDelete({ _id: req.body.carid });
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from "./context/AppContext";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/Landing_page";
@@ -8,16 +8,25 @@ import HelpPage from "./pages/Help.jsx";
 import AboutUs from "./pages/About.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
-import CarBookingsPage from "./pages/CarBookingsPage.jsx";
+import AllCarBookingsPage from "./pages/AllCarBookingsPage.jsx";
+import AddCarBookingPage from "./pages/Add_car_page.jsx";
 
 const ProtectedRoute = ({ element: Component, ...rest }) => {
-	const { token, navigate } = useContext(AppContext);
+	const { cookies, navigate, setUser, setIsAdmin } = useContext(AppContext);
+	useEffect(() => {
+		if (cookies.token) {
+			setUser(cookies.user);
+			setIsAdmin(cookies.user.role === "Admin");
+		} else {
+			navigate("/login");
+		}
+	}, []);
 
-	if (token) {
-		return <Component {...rest} />;
-	} else {
-		navigate("/login");
-	}
+	// If no token, return null (handled in useEffect with navigation)
+	if (!cookies.token) return null;
+
+	// Render the protected component if authenticated
+	return <Component {...rest} />;
 };
 
 function App() {
@@ -29,13 +38,13 @@ function App() {
 				<Route path="/help" element={<HelpPage />} />
 				<Route path="/about" element={<AboutUs />} />
 				<Route path="/register" element={<Register />} />
-				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/booking/:id" element={<BookingPage />} />
-				<Route path="/carbookings" element={<CarBookingsPage />} />
-				{/* <Route
+				<Route path="/carbookings" element={<AllCarBookingsPage />} />
+				<Route path="/add-car" element={<AddCarBookingPage />} />
+				<Route
 					path="/dashboard"
 					element={<ProtectedRoute element={Dashboard} />}
-				/> */}
+				/>
 			</Routes>
 		</div>
 	);
