@@ -15,10 +15,10 @@ const carSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
-		// type: {
-		// 	type: String,
-		// 	enum: ["Luxury", "Economy", "SUV"],
-		// },
+		type: {
+			type: String,
+			enum: ["Luxury", "Economy", "SUV", "Comfort"],
+		},
 		fuelType: {
 			type: String,
 			required: true,

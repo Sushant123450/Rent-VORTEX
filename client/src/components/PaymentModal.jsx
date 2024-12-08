@@ -3,6 +3,7 @@ import { AppContext } from "../context/AppContext";
 
 const PaymentModal = (props) => {
 	const [amount, setIsModalOpen, setPayment] = props.props;
+	console.log(amount, setIsModalOpen, setPayment);
 
 	const [formData, setFormData] = useState({
 		cardName: "",

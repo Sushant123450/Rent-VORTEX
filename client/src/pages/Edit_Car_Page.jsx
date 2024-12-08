@@ -1,16 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
-const AddCarPage = () => {
-	const { addCar, loading, setLoading, navigate } = useContext(AppContext);
+const Edit_Car_Page = () => {
+	const { cars, loading, setLoading, navigate, editCar } =
+		useContext(AppContext);
+	const carId = useParams();
+
+	const car = cars.filter((c) => {
+		if (c._id == carId.id) {
+			console.log("car");
+
+			return c;
+		}
+	});
+
+	console.log(car);
 
 	const [formData, setFormData] = useState({
-		name: "",
-		image: "",
-		capacity: "",
-		fuelType: "",
-		type: "",
-		rentPerHour: "",
+		_id: carId.id,
+		name: car[0]?.name || "",
+		image: car[0]?.image || "",
+		capacity: car[0]?.capacity,
+		fuelType: car[0]?.fuelType,
+		type: car[0]?.type || "Economy",
+		rentPerHour: car[0]?.rentPerHour,
 	});
 
 	const handleChange = (e) => {
@@ -23,9 +37,9 @@ const AddCarPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const res = await addCar(formData);
+		const res = await editCar(formData);
 		console.log(res);
-		
+
 		if (res.status === 200) {
 			setFormData({
 				name: "",
@@ -35,6 +49,7 @@ const AddCarPage = () => {
 				type: "",
 				rentPerHour: "",
 			});
+			navigate("/dashboard");
 		}
 	};
 
@@ -48,7 +63,7 @@ const AddCarPage = () => {
 				Dashboard
 			</button>
 
-			<h1 className="text-2xl font-bold mb-6 text-center">Add New Car</h1>
+			<h1 className="text-2xl font-bold mb-6 text-center">Edit New Car</h1>
 			<form onSubmit={handleSubmit}>
 				{/* Car Name */}
 				<div className="mb-4">
@@ -162,11 +177,11 @@ const AddCarPage = () => {
 					type="submit"
 					className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 mb-4"
 				>
-					Add Car
+					Edit Car
 				</button>
 			</form>
 		</div>
 	);
 };
 
-export default AddCarPage;
+export default Edit_Car_Page;

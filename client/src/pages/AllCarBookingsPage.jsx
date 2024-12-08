@@ -13,7 +13,7 @@ const GetAllBookings = () => {
 	} = useContext(AppContext); // Use loading from context
 
 	const [error, setError] = useState("");
-
+	const [location, setlocation] = useState(null);
 	// Fake booking data
 	useEffect(() => {
 		setLoading(true);
@@ -25,6 +25,7 @@ const GetAllBookings = () => {
 				console.error("Error fetching cars:", err);
 				setLoading(false);
 			});
+
 		console.log(bookings);
 	}, []);
 
@@ -55,33 +56,49 @@ const GetAllBookings = () => {
 							</p>
 						</div>
 					) : (
-						bookings.map((booking) => (
-							<div
-								key={booking._id}
-								className="relative bg-white shadow-lg rounded-xl overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300"
-							>
-								<img
-									src={booking.car.image}
-									alt={booking.car.name}
-									loading="lazy"
-									className="w-full h-48 object-cover rounded-t-xl"
-								/>
-								<div className="p-4">
-									<h3 className="text-lg font-semibold text-gray-800">
-										{booking.car.name}
-									</h3>
-									<p className="text-sm text-gray-500">
-										Customer: {booking.user.name}
-									</p>
-									<p className="text-sm text-gray-500">
-										Rent: ₹{booking.totalAmount}
-									</p>
-									<p className="text-sm text-gray-500">
-										Duration: {booking.totalHours} hours
-									</p>
+						bookings.map((booking) => {
+							return (
+								<div
+									key={booking._id}
+									className="relative bg-white shadow-lg rounded-xl overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300"
+								>
+									<img
+										src={booking.car.image}
+										alt={booking.car.name}
+										loading="lazy"
+										className="w-full h-48 object-cover rounded-t-xl"
+									/>
+									<div className="p-4">
+										<h3 className="text-lg font-semibold text-gray-800">
+											{booking.car.name}
+										</h3>
+										<p className="text-sm text-gray-500">
+											Customer: {booking.user.name}
+										</p>
+										<p className="text-sm text-gray-500">
+											Rent: ₹{booking.totalAmount}
+										</p>
+										<p className="text-sm text-gray-500">
+											Duration: {booking.totalHours} hours
+										</p>
+										<p className="text-sm text-gray-500">
+											Type: {booking.car.type}
+										</p>
+										<p className="text-sm text-gray-500">
+											Location:
+											<a
+												href={`https://www.google.com/maps?q=${booking.location.lat},${booking.location.lng}`}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-blue-600 underline"
+											>
+												{booking.location.lat}, {booking.location.lng}
+											</a>
+										</p>
+									</div>
 								</div>
-							</div>
-						))
+							);
+						})
 					)}
 				</div>
 			)}

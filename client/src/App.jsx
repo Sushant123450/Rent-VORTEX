@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
 import AllCarBookingsPage from "./pages/AllCarBookingsPage.jsx";
 import AddCarBookingPage from "./pages/Add_car_page.jsx";
+import EditCarPage from "./pages/Edit_Car_Page.jsx";
 
 const ProtectedRoute = ({ element: Component, ...rest }) => {
 	const { cookies, navigate, setUser, setIsAdmin } = useContext(AppContext);
@@ -38,12 +39,25 @@ function App() {
 				<Route path="/help" element={<HelpPage />} />
 				<Route path="/about" element={<AboutUs />} />
 				<Route path="/register" element={<Register />} />
-				<Route path="/booking/:id" element={<BookingPage />} />
-				<Route path="/carbookings" element={<AllCarBookingsPage />} />
-				<Route path="/add-car" element={<AddCarBookingPage />} />
 				<Route
 					path="/dashboard"
 					element={<ProtectedRoute element={Dashboard} />}
+				/>
+				<Route
+					path="/booking/:id"
+					element={<ProtectedRoute element={BookingPage} />}
+				/>
+				<Route
+					path="/carbookings"
+					element={<ProtectedRoute element={AllCarBookingsPage} />}
+				/>
+				<Route
+					path="/add-car"
+					element={<ProtectedRoute element={AddCarBookingPage} />}
+				/>
+				<Route
+					path="/edit-car/:id"
+					element={<ProtectedRoute element={EditCarPage} />}
 				/>
 			</Routes>
 		</div>

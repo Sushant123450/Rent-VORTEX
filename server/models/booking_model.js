@@ -26,6 +26,14 @@ const bookingSchema = new mongoose.Schema(
 		driverRequired: {
 			type: Boolean,
 		},
+		location: {
+			lat: {
+				type: Number,
+			},
+			lng: {
+				type: Number,
+			},
+		},
 	},
 	{
 		timestamps: true,

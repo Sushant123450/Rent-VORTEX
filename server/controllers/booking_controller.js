@@ -11,7 +11,6 @@ exports.bookCar = async (req, res) => {
 		const newbooking = new Booking(req.body);
 		await newbooking.save();
 		const car = await Car.findOne({ _id: req.body.car });
-		console.log(req.body.car);
 		const user = await User.findOne({ _id: req.body.user });
 		car.bookedTimeSlots.push(req.body.bookedTimeSlots);
 
@@ -25,7 +24,7 @@ exports.bookCar = async (req, res) => {
 
 exports.getAllBookings = async (req, res) => {
 	try {
-		const bookings = await Booking.find().populate(["car","user"]);
+		const bookings = await Booking.find().populate(["car", "user"]);
 		res.send(bookings);
 	} catch (error) {
 		console.log(error);

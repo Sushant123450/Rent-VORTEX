@@ -24,9 +24,12 @@ exports.editCar = async (req, res) => {
 	console.log("Edit Car Called");
 	try {
 		const car = await Car.findOne({ _id: req.body._id });
+		// console.log(car);
+
 		car.name = req.body.name;
 		car.image = req.body.image;
 		car.fuelType = req.body.fuelType;
+		car.type = req.body.type;
 		car.rentPerHour = req.body.rentPerHour;
 		car.capacity = req.body.capacity;
 

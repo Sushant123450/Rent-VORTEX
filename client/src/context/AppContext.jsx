@@ -89,7 +89,9 @@ function AppContextProvider({ children }) {
 			carData.capacity = Number(carData.capacity);
 			carData.rentPerHour = Number(carData.rentPerHour);
 			const response = await axios.post(`${BASE_URL}/addCar`, carData);
-			if (response.ok) {
+			console.log(response);
+
+			if (response.statusText === "OK") {
 				return response;
 			} else {
 				console.error("Failed to add car.");
@@ -98,8 +100,25 @@ function AppContextProvider({ children }) {
 			console.error("Error:", error);
 		}
 	}
+	async function editCar(carData) {
+		console.log(carData);
 
+		try {
+			carData.capacity = Number(carData.capacity);
+			carData.rentPerHour = Number(carData.rentPerHour);
+			const response = await axios.post(`${BASE_URL}/editcar`, carData);
+
+			if (response.status === 200) {
+				return response;
+			} else {
+				console.error("Failed to edir car.");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	}
 	async function makeBooking(bookingData) {
+		console.log(bookingData);
 		setLoading(true);
 		try {
 			const res = await axios.post(`${BASE_URL}/bookCar`, bookingData);
@@ -145,6 +164,7 @@ function AppContextProvider({ children }) {
 		getAllBookings,
 		bookings,
 		setBookings,
+		editCar,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

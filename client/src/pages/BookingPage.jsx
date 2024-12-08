@@ -16,15 +16,14 @@ const BookingPage = () => {
 		startDate: "",
 		endDate: "",
 		driverRequired: false,
-		location: "", // Store location coordinates
+		location: null, // Store location coordinates
 	});
-
 	const [totalCost, setTotalCost] = useState(0);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [payment, setPayment] = useState({ status: null, paymentID: null });
 	const customIcon = new Icon({
 		iconUrl: "https://cdn-icons-png.flaticon.com/512/9970/9970240.png",
-		iconSize: [25, 25],
+		iconSize: [45, 45],
 	});
 	useEffect(() => {
 		async function paymentHandle() {
@@ -80,6 +79,7 @@ const BookingPage = () => {
 		if (["startDate", "endDate", "driverRequired"].includes(field)) {
 			calculateTotalCost({ ...formData, [field]: value });
 		}
+		console.log(formData);
 	};
 
 	const calculateTotalCost = (data) => {
@@ -95,7 +95,7 @@ const BookingPage = () => {
 	};
 
 	// Custom Map Event Component to Handle Location Selection
-	const LocationPicker = () => {
+	const LocationPicker = React.memo(() => {
 		useMapEvents({
 			click: (e) => {
 				setFormData((prev) => ({
@@ -104,10 +104,15 @@ const BookingPage = () => {
 				}));
 			},
 		});
+		console.log(formData.location);
+
 		return formData.location ? (
-			<Marker position={[formData.location.lat, formData.location.lng]} />
+			<Marker
+				position={[formData.location.lat, formData.location.lng]}
+				icon={customIcon}
+			/>
 		) : null;
-	};
+	});
 
 	return (
 		<div className="p-8 min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300">
@@ -186,6 +191,22 @@ const BookingPage = () => {
 									className="w-full p-2 border rounded-lg mt-1"
 								/>
 							</label>
+							<div className="mt-4  ">
+								<label className="block text-gray-700 mt-4 ">
+									Select Pickup Location
+									<MapContainer
+										className=" z-10"
+										center={[28.6139, 77.209]}
+										zoom={12}
+										style={{ marginTop: "1rem", height: 300 }}
+									>
+										<TileLayer
+											url={"https://tile.openstreetmap.org/{z}/{x}/{y}.png"}
+										/>
+										<LocationPicker />
+									</MapContainer>
+								</label>
+							</div>
 							<div className="mt-4">
 								<label className="flex items-center text-gray-700">
 									<input

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import P1 from "../assets/person_1.jpg";
+import P3 from "../assets/person_2.jpg"; // Add team member images
+import P2 from "../assets/person_3.jpg";
 import Celio from "../assets/celerio.jpg";
 import Lux from "../assets/Luxury.jpg";
 import SUV from "../assets/Suv.jpg";
@@ -39,7 +41,7 @@ const AboutUs = () => {
         <div className="max-w-screen-lg mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Why Choose Rent Vortex?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[ 
+            {[
               { title: "Wide Range of Vehicles", description: "From economy cars to luxury vehicles, we have the perfect option for every trip." },
               { title: "Flexible Rental Plans", description: "Choose daily, weekly, or monthly plans tailored to your needs and budget." },
               { title: "Affordable Prices", description: "Enjoy competitive pricing without compromising on quality or service." },
@@ -65,7 +67,7 @@ const AboutUs = () => {
             journey. Travel in comfort, style, and reliability!
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[ 
+            {[
               { title: "Economy Cars", description: "Budget-friendly and ideal for city drives.", image: Celio },
               { title: "Luxury Cars", description: "Drive in style with premium luxury vehicles.", image: Lux },
               { title: "SUVs", description: "Spacious and perfect for family or adventure trips.", image: SUV },
@@ -84,17 +86,20 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-16 px-6 bg-gray-50">
+      {/* Team Members Section */}
+      <section className="bg-gray-100 py-16 px-6">
         <div className="max-w-screen-lg mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Meet Our Team</h2>
+          <p className="text-lg mb-12 max-w-2xl mx-auto">
+            At Rent Vortex, our dedicated team works tirelessly to provide an exceptional experience for our customers.
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[ 
-              { name: "Shishir Shukla", role: "Operations Manager", image: P1 },
-              { name: "Yash Kumar", role: "Founder & CEO", image: "https://via.placeholder.com/150" },
-              { name: "Rahul Mehta", role: "Customer Support Specialist", image: "https://via.placeholder.com/150" },
+            {[
+              { name: "Shishir Shukla",  image: P1 },
+              { name: "Yash Kumar",  image: P2 },
+              { name: "Yash Kumar",  image: P3 },
             ].map((member, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform transition duration-300 ease-in-out">
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md text-center">
                 <img
                   src={member.image}
                   alt={member.name}
