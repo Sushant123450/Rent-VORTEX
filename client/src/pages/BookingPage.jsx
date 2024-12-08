@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { AppContext } from "../context/AppContext";
 import PayementModal from "../components/PaymentModal";
+import { Icon } from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 const BookingPage = () => {
 	const { navigate, loading, setLoading, makeBooking, user } =
@@ -13,12 +16,16 @@ const BookingPage = () => {
 		startDate: "",
 		endDate: "",
 		driverRequired: false,
+		location: "", // Store location coordinates
 	});
 
 	const [totalCost, setTotalCost] = useState(0);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [payment, setPayment] = useState({ status: null, paymentID: null });
-
+	const customIcon = new Icon({
+		iconUrl: "https://cdn-icons-png.flaticon.com/512/9970/9970240.png",
+		iconSize: [25, 25],
+	});
 	useEffect(() => {
 		async function paymentHandle() {
 			if (payment.status === "success") {
@@ -46,6 +53,7 @@ const BookingPage = () => {
 						totalAmount: totalCost,
 						transactionId: payment.paymentID,
 						driverRequired: formData.driverRequired,
+						location: formData.location, // Include location data
 					};
 					// console.log(bookingData);
 					await makeBooking(bookingData); // Ensure the function `bookCar` matches your implementation
@@ -84,6 +92,21 @@ const BookingPage = () => {
 			if (driverRequired) cost += hours * 100;
 			setTotalCost(cost);
 		}
+	};
+
+	// Custom Map Event Component to Handle Location Selection
+	const LocationPicker = () => {
+		useMapEvents({
+			click: (e) => {
+				setFormData((prev) => ({
+					...prev,
+					location: { lat: e.latlng.lat, lng: e.latlng.lng },
+				}));
+			},
+		});
+		return formData.location ? (
+			<Marker position={[formData.location.lat, formData.location.lng]} />
+		) : null;
 	};
 
 	return (
