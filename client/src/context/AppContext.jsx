@@ -12,7 +12,8 @@ function AppContextProvider({ children }) {
 	const navigate = useNavigate();
 	const [cars, setCars] = useState([]);
 	const [bookings, setBookings] = useState([]);
-	const BASE_URL = "http://localhost:5500/api/v1";
+	// const BASE_URL = "http://localhost:5500/api/v1";
+	const BASE_URL = "https://rent-vortex.onrender.com/api/v1";
 	const [cookies, setCookie, removeCookie] = useCookies();
 
 	async function handleLogin(data) {

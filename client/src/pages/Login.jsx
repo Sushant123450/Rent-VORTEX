@@ -1,15 +1,25 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import Img4 from "../assets/Car-img4.jpg";
+import { initCarModel } from "../components/CarModel";
 import { AppContext } from "../context/AppContext";
 
 function Login() {
 	const { loading, setLoading, handleLogin, navigate } = useContext(AppContext);
+	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+
+	useEffect(() => {
+		initCarModel();
+	}, []);
+
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
+	};
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -28,17 +38,22 @@ function Login() {
 			{loading ? (
 				<Spinner />
 			) : (
-				<div className="flex">
-					<div className="lg:w-2/3 relative">
+				<div className="flex w-full">
+					{/* <div className="lg:w-2/3 relative">
 						<img
 							className="w-full h-full object-cover"
 							src={Img4}
 							alt="Car Rental"
 							loading="lazy"
-						/>	
+						/>
+					</div> */}
+					<div className="w-2/3 my-auto flex justify-center items-center" loading="lazy">
+						<div
+							id="car-model-container"
+							className="w-full h-[80%] bg-transparent overflow-hidden "
+						></div>
 					</div>
-
-					<div className="lg:w-1/3 bg-white p-6 rounded-lg shadow-lg mx-4">
+					<div className="w-1/3 bg-white p-6 rounded-lg shadow-lg m-4">
 						<form className="text-left">
 							<h1 className="text-3xl font-semibold text-gray-700 mb-4">
 								Login
@@ -63,22 +78,31 @@ function Login() {
 								/>
 							</div>
 
-							<div className="mb-6">
-								<label
-									htmlFor="password"
-									className="block text-lg font-semibold text-gray-700 mb-2"
-								>
-									Password
-								</label>
+							<label
+								htmlFor="password"
+								className="block text-lg font-semibold text-gray-700 mb-2"
+							>
+								Password
+							</label>
+							<div className="mb-6 relative">
 								<input
 									id="password"
-									type="password"
+									type={showPassword ? "text" : "password"}
 									name="password"
 									className="w-full p-3 border border-gray-300 rounded-lg"
 									value={formData.password}
 									onChange={handleInputChange}
 									required
 								/>
+								<div className="absolute inset-y-0 right-3 flex items-center">
+									<button
+										type="button"
+										onClick={togglePasswordVisibility}
+										className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+									>
+										{showPassword ? "Hide" : "Show"}
+									</button>
+								</div>
 							</div>
 
 							<button
