@@ -60,6 +60,7 @@ const BookingPage = () => {
 					console.error("Error while booking:", err);
 				} finally {
 					setLoading(false);
+					navigate("/dashboard");
 				}
 			} else if (payment.status === "failed") {
 				alert("Payment Failed. Please Try Again");

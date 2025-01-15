@@ -141,6 +141,17 @@ function AppContextProvider({ children }) {
 			setLoading(false);
 		}
 	}
+	async function cancelBooking(carID) {
+		setLoading(true);
+		try {
+			const res = await axios.delete(`${BASE_URL}/cancelbooking/${carID}`);
+			setBookings(res.data);
+		} catch (err) {
+			console.error("Error cancelling", err);
+		} finally {
+			setLoading(false);
+		}
+	}
 
 	const value = {
 		loading,
@@ -165,6 +176,7 @@ function AppContextProvider({ children }) {
 		bookings,
 		setBookings,
 		editCar,
+		cancelBooking,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

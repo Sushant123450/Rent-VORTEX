@@ -55,7 +55,6 @@ exports.login = async (req, res) => {
 	try {
 		let { email, password } = req.body;
 		email = email.toLowerCase().trim();
-		name = name.toLowerCase().trim();
 		// console.log(req.body);
 
 		if (!email || !password) {

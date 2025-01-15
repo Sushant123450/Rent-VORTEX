@@ -23,11 +23,43 @@ exports.bookCar = async (req, res) => {
 };
 
 exports.getAllBookings = async (req, res) => {
+	console.log("Get All Booking Called");
+
 	try {
 		const bookings = await Booking.find().populate(["car", "user"]);
 		res.send(bookings);
 	} catch (error) {
 		console.log(error);
 		return res.status(400).json(error);
+	}
+};
+
+exports.cancelBooking = async (req, res) => {
+	console.log("Cancel Booking Called");
+
+	const { bookingID } = req.params;
+	console.log(bookingID);
+
+	try {
+		const booking = await Booking.findByIdAndDelete(bookingID);
+
+		if (!booking) {
+			return res.status(404).json({
+				success: false,
+				message: "Booking not found",
+			});
+		}
+		return res.status(200).json({
+			success: true,
+			message: "Booking successfully canceled",
+			data: booking,
+		});
+	} catch (error) {
+		console.error("Error canceling booking:", error);
+		return res.status(500).json({
+			success: false,
+			message: "An error occurred while canceling the booking",
+			error: error.message,
+		});
 	}
 };
